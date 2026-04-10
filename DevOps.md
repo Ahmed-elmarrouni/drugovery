@@ -113,3 +113,7 @@ docker exec -u root 0c4e9e2d8fef bash -c "apt-get update && apt-get install -y d
 
 even this failed and I got this error : `Unable to locate package docker-compose-plugin`
 because the default Debian repositories in my Jenkins container don't include the official Docker plugins
+
+7th attemt : I found that the pipeline failed because Jenkins tried to use my local development settings (volumes and ports). I fixed this by moving my local settings to a `docker-compose.override.yml` file.
+
+This allows me to keep using hot-reload on my Mac while letting Jenkins run a clean, isolated build in the CI environment without any folder or port conflicts.
