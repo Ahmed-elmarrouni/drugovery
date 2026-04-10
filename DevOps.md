@@ -117,3 +117,5 @@ because the default Debian repositories in my Jenkins container don't include th
 7th attemt : I found that the pipeline failed because Jenkins tried to use my local development settings (volumes and ports). I fixed this by moving my local settings to a `docker-compose.override.yml` file.
 
 This allows me to keep using hot-reload on my Mac while letting Jenkins run a clean, isolated build in the CI environment without any folder or port conflicts.
+
+_Note: I also had to update the `Jenkinsfile` to use the `-f docker-compose.yml` flag. Docker Compose automatically loads override files by default. By explicitly specifying the base file with `-f`, I forced Jenkins to ignore the local volumes in the override file, finally resolving the "file not found" error during testing._
