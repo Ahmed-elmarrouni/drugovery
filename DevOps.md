@@ -81,3 +81,35 @@ It connects Jenkins to the ngrok webhook
 I created a new file named `Jenkinsfile` in the root folder of my project.
 
 Inside this file, I added the pipeline stages to tell Jenkins exactly how to build the Docker containers and test the code automatically.
+
+### Step 6 :
+
+so at first build attempt I faild
+![alt text](images/12_1st-pipeline-build-attempt.png)
+
+so the issue was my Jenkins pipeline was trying to build my project using Docker Compose, but the official Jenkins container doesn't have the docker command installed inside it by default
+
+so I installed Docker inside my Jenkins container
+
+```bash
+docker exec -u root 0c4e9e2d8fef bash -c "apt-get update && apt-get install -y docker.io"
+```
+
+and then i make sure the Jenkins user has permission to talk to the Docker socket by run
+
+```bash
+docker exec -u root 0c4e9e2d8fef chmod 666 /var/run/docker.sock
+```
+
+so It's failed again cuz the 1st command that's I run it's was only for installed the basic Docker engine, but it didn't include the Compose plugin, That is why Jenkins says 'compose' is not a docker command ( I got this from console output at jenkins console)
+
+![2nd build attempt](images/13_2nd-pipeline-build-attempt.png)
+
+so I run this command to install the missing plugin
+
+```bash
+docker exec -u root 0c4e9e2d8fef bash -c "apt-get update && apt-get install -y docker-compose-plugin"
+```
+
+even this failed and I got this error : `Unable to locate package docker-compose-plugin`
+because the default Debian repositories in my Jenkins container don't include the official Docker plugins
