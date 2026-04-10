@@ -1,0 +1,24 @@
+services:
+  backend:
+    volumes:
+      - ./backend:/app
+    ports:
+      - "8000:8000"
+
+  postgres:
+    ports:
+      - "5433:5432"
+
+  redis:
+    ports:
+      - "6380:6379"
+
+  mlflow:
+    ports:
+      - "5001:5000"
+
+  frontend:
+    volumes:
+      - ./frontend:/app
+    ports:
+      - "3000:80"
