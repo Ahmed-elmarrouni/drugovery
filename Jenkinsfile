@@ -12,7 +12,7 @@ pipeline {
         stage('Test Backend') {
             steps {
                 echo 'Running Python tests...'
-                sh 'docker compose -p drugovery-ci run -T --rm backend pytest tests/'
+                sh 'docker compose -f docker-compose.yml -f docker-compose.ci.yml -p drugovery-ci run -T --rm backend pytest tests/'
             }
         }
     }

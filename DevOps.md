@@ -82,7 +82,7 @@ I created a new file named `Jenkinsfile` in the root folder of my project.
 
 Inside this file, I added the pipeline stages to tell Jenkins exactly how to build the Docker containers and test the code automatically.
 
-### Step 6 :
+### Step 6 : Pipeline building
 
 so at first build attempt I faild
 ![alt text](images/12_1st-pipeline-build-attempt.png)
