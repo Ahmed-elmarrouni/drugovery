@@ -119,3 +119,29 @@ because the default Debian repositories in my Jenkins container don't include th
 This allows me to keep using hot-reload on my Mac while letting Jenkins run a clean, isolated build in the CI environment without any folder or port conflicts.
 
 _Note: I also had to update the `Jenkinsfile` to use the `-f docker-compose.yml` flag. Docker Compose automatically loads override files by default. By explicitly specifying the base file with `-f`, I forced Jenkins to ignore the local volumes in the override file, finally resolving the "file not found" error during testing._
+
+finalllly the 11th attemt After separating the local environment from the CI environment, the Jenkins pipeline ran perfectly.
+
+When I pushed the code to GitHub, the webhook triggered Jenkins automatically. Jenkins built the Docker containers in an isolated environment and successfully ran the Python backend tests (5 tests passed). Finally, the pipeline cleaned up the temporary containers, ending with a SUCCESS status.
+
+![alt text](images/14_successful-pipeline-build.png)
+
+my CI/CD Configuration Files
+
+To solve the configuration conflicts, I separated my Docker setup into different files. Here is a small tree explaining how they work together:
+
+first-lab/
+├── Jenkinsfile # The steps Jenkins follows to build and test the project automatically.
+├── docker-compose.yml # The base container configuration (used by both my local Mac and Jenkins).
+├── docker-compose.override.yml # My local development settings (ports mapped to Mac, hot-reload volumes).
+└── docker-compose.ci.yml # Specific settings for Jenkins to ensure tests run in an isolated environment.
+
+![alt text](images/15_pipeline-overview.png)
+
+### step 7 : Pushing the Image to Docker Hub
+
+First, I logged into my Docker Hub acc. Because I use GitHub to log in, I had to generate a Personal Access Token (PAT) in the security settings to use instead of a standard password.
+
+Next, I went to the Jenkins Dashboard and added this token in the Credentials section. I created a new "Username with password" credential, entered my Docker Hub username, pasted the token as the password, and gave it the ID docker-hub-creds.
+
+Finally, I updated my Jenkinsfile to use these credentials securely. This allowed the pipeline to safely log into Docker and automatically tag and push my backend, frontend, and celery-worker images to my public Docker Hub repository without exposing my password in the logs.
