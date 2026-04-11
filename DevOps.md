@@ -145,3 +145,15 @@ First, I logged into my Docker Hub acc. Because I use GitHub to log in, I had to
 Next, I went to the Jenkins Dashboard and added this token in the Credentials section. I created a new "Username with password" credential, entered my Docker Hub username, pasted the token as the password, and gave it the ID docker-hub-creds.
 
 Finally, I updated my Jenkinsfile to use these credentials securely. This allowed the pipeline to safely log into Docker and automatically tag and push my backend, frontend, and celery-worker images to my public Docker Hub repository without exposing my password in the logs.
+
+## Step 8: Verification
+
+the pipeline works flawlessly from start to finish, I verified the results in both Jenkins and Docker Hub.
+
+First, I checked the Jenkins console output for the latest build. It confirmed that the pipeline successfully executed the Docker login, tagged the images, pushed them to the registry, and ended with a SUCCESS status.
+
+![alt text](images/16_jenkins-success-console.png)
+
+Next, I visited my Docker Hub profile (ahmedelmrn) to verify the images were actually uploaded. As expected, all three repositories (drugovery-backend, drugovery-frontend, and drugovery-celery-worker) showed that the latest tags were pushed just a few seconds after the Jenkins pipeline finished.
+
+![alt text](images/17_docker-hub-repos.png)
