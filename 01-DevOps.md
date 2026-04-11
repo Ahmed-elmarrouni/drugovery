@@ -130,11 +130,14 @@ my CI/CD Configuration Files
 
 To solve the configuration conflicts, I separated my Docker setup into different files. Here is a small tree explaining how they work together:
 
+```bash
+
 first-lab/
 ├── Jenkinsfile # The steps Jenkins follows to build and test the project automatically.
 ├── docker-compose.yml # The base container configuration (used by both my local Mac and Jenkins).
 ├── docker-compose.override.yml # My local development settings (ports mapped to Mac, hot-reload volumes).
 └── docker-compose.ci.yml # Specific settings for Jenkins to ensure tests run in an isolated environment.
+```
 
 ![alt text](images/15_pipeline-overview.png)
 
