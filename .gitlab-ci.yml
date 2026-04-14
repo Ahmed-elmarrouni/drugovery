@@ -10,7 +10,7 @@ variables:
 stages:
   - test
   - push
-  - [cite_start]deploy 
+  - deploy
 
 test_backend:
   stage: test
@@ -34,12 +34,15 @@ push_to_dockerhub:
   script:
     - echo "Logging into Docker Hub..."
     - echo "$DOCKER_PWD" | docker login -u "$DOCKER_USER" --password-stdin
+
     - echo "Rebuilding images for pushing..."
     - docker compose -f docker-compose.yml -f docker-compose.ci.yml -p drugovery-ci build
+
     - echo "Tagging Images..."
     - docker tag drugovery-ci-backend $DOCKER_USER/drugovery-backend:latest
     - docker tag drugovery-ci-frontend $DOCKER_USER/drugovery-frontend:latest
     - docker tag drugovery-ci-celery-worker $DOCKER_USER/drugovery-celery-worker:latest
+
     - echo "Pushing Images to Docker Hub..."
     - docker push $DOCKER_USER/drugovery-backend:latest
     - docker push $DOCKER_USER/drugovery-frontend:latest
