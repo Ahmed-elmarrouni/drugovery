@@ -53,5 +53,8 @@ k8s_deploy:
   only:
     - DevOps
   script:
+    - echo "Logging into Docker Hub to pull the image..."
+    - echo "$DOCKER_PWD" | docker login -u "$DOCKER_USER" --password-stdin
+
     - echo "Deploying images to the cluster..."
     - docker run -d -p 8080:8080 --name drugovery-app "$DOCKER_USER/drugovery-backend:latest"
