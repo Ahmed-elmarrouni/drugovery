@@ -1,0 +1,17 @@
+services:
+  backend:
+    volumes:
+      - /app/uploads
+    ports: []
+
+  postgres:
+    ports: []
+
+  redis:
+    ports: []
+
+  mlflow:
+    ports: []
+
+  celery-worker:
+    volumes: []
